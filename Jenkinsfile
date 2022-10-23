@@ -1,41 +1,53 @@
+#!/urs/bin/env groovy
+@Library('jenkis-shared-library')
+def gv
+
+
 pipeline {
     agent any
+    tools {
+        maven 'Maven'
+    }
     stages {
-        stage("test") {
+        stage('init'){
             steps {
                 script {
-                    echo "Testing the application ..."
-                    echo "Executing pipeline for branch $BRANCH_NAME"
+                    gv = load "script.groovy"
                 }
             }
-        }
-        stage("build") {
+           } 
+        stage("build jar") {
+            steps {
+                script {    
+                    buildJar()
             
-            when {
-                expression {              
-                    BRANCH_NAME == 'main'
-                }            
-            }
-            steps {
-                script {
-                    echo "Building the application ..."
-                    
                 }
+            
             }
+        
+        }
+       stage("build image") {
+            steps {
+                script {    
+                    buildImage()
+                                      
+                }
+            
+            }
+        
         }
         stage("deploy") {
-        when {
-                expression {              
-                    BRANCH_NAME == 'master'
-                }            
-            }
             steps {
                 script {
-                    echo "Deploying the application ..."
-                    
+                    gv.deployApp()
+                
                 }
+            
             }
+        
         }
         
-    }   
+    }
+
+
 }
