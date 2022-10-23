@@ -1,5 +1,5 @@
 #!/urs/bin/env groovy
-@Library('jenkis-shared-library')
+@Library('jenknis-shared-library')
 def gv
 
 
