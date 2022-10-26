@@ -34,7 +34,6 @@ pipeline {
        stage("build image") {
             steps {
                 script {    
-                    echo "building the docker image"
 		echo "building the docker image"
         	withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]){
         	sh "docker build -t mirsaidalizade/demo-app:$IMAGE_NAME ."
