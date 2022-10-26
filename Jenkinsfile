@@ -56,7 +56,7 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    gv.deployApp()
+                    echo "deploying app to EC2"
                 
                 }
             
