@@ -56,6 +56,24 @@ pipeline {
             }
         
         }
+	stage("commit version update"){
+	  steps {
+	    script{
+	      withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+		sh 'git config --global user.email "mirsaidaliazde6@gmail.com"'
+		sh 'git config --global user.name "mirsaid"'
+		sh 'git status'
+		sh 'git branch'
+		sh 'git config --list'
+		
+		sh "git remote set-url origin https://${USER}:${PASS}@github.com/Mirsaid/java-maven-app.git"
+		sh 'git add .'
+		sh 'git commit -m "ci: version bump"'
+		sh 'git push origin HEAD:jenkins-jobs'
+}	
+}
+}
+}
         
     }
 
