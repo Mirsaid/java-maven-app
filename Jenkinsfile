@@ -1,45 +1,35 @@
 #!/urs/bin/env groovy
-@Library('jenknis-shared-library')
-def gv
-
-
 pipeline {
     agent any
     tools {
         maven 'Maven'
     }
     stages {
-        stage('init'){
+        stage('test'){
             steps {
                 script {
-                    gv = load "script.groovy"
+                    echo "Testing the application"
                 }
             }
            } 
         stage("build jar") {
             steps {
                 script {    
-                    buildJar()
+                    echo "Building jar file"
             
                 }
             
             }
         
         }
-       stage("build image") {
-            steps {
-                script {    
-                    buildImage()
-                                      
-                }
-            
-            }
         
-        }
         stage("deploy") {
             steps {
                 script {
-                    gv.deployApp()
+		    def DockerCmd = 'docker run -d -p 80:80 mirsaidalizade/demo-app:1.0'
+                    sshagent(['my-key']){
+			sh "ssh -o StrictHostKeyChecking=no ec2-user@44.202.141.204 ${dockerCmd}"
+			}
                 
                 }
             
